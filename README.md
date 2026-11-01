@@ -1,5 +1,9 @@
 # SimpleBadge
 
+<p align="center">
+  <img src="images/simplebadge-manga-cover.svg" width="1000" alt="SimpleBadge studio">
+</p>
+
 A [Vencord](https://vencord.dev) user plugin that lets you add and customize Discord profile badges, and share them with everyone who uses the plugin.
 
 Pick from a full catalog of Discord badges (Nitro, Booster, Staff, HypeSquad, Developer...), create your own custom badges, preview the result on a live profile card, and publish it. So other plugin users see your badges on your profile.
@@ -75,9 +79,6 @@ Use the **Sync badges** toolbox action (or the sync pill in the studio) to refre
 ---
 
 ## Preview
-<p align="center">
-  <img src="images/simplebadge-manga-cover.svg" width="600" alt="SimpleBadge studio">
-</p>
 
 <p align="center">
   <img src="images/preview.png" width="400" alt="SimpleBadge studio">
