@@ -40,14 +40,20 @@ Pick from a full catalog of Discord badges (Nitro, Booster, Staff, HypeSquad, De
 SimpleBadge is a Vencord **user plugin**, so you need Vencord built from source.
 
 1. Follow the [Vencord developer guide](https://docs.vencord.dev/installing/) to set up the source (Git, Node.js and pnpm are required).
-2. Open a cmd and go there: ```bash cd Vencord/src/userplugins```
-3. Execute this command: ```bash git clone https://github.com/SpaceFR4/SimpleBadge```
-4. Build and inject:
+2. Open a cmd and go there:
+   ```bash
+   cd Vencord/src/userplugins
+   ```
+4. Execute this command:
+   ```bash
+   git clone https://github.com/SpaceFR4/SimpleBadge
+   ```
+6. Build and inject:
    ```bash
    pnpm build
    pnpm inject
    ```
-5. Restart Discord completely, then enable **SimpleBadge** in **Settings → Vencord → Plugins**.
+7. Restart Discord completely, then enable **SimpleBadge** in **Settings → Vencord → Plugins**.
 
 ---
 
