@@ -3,10 +3,14 @@ import { UserStore } from "@webpack/common";
 import { settings } from "./settings";
 import {
     BadgeDefinition,
+    compareVersions,
     DEFAULT_API_URL,
+    PLUGIN_VERSION,
     RemoteDatabase,
+    REPO_URL,
     SyncState,
-    SyncStatusInfo
+    SyncStatusInfo,
+    UpdateInfo
 } from "./types";
 
 declare const VencordNative: any;
@@ -16,6 +20,12 @@ let syncState: SyncState = "idle";
 let syncError = "";
 let lastSyncTime = 0;
 let pollTimer: ReturnType<typeof setInterval> | null = null;
+let startTimer: ReturnType<typeof setTimeout> | null = null;
+let updateTimer: ReturnType<typeof setTimeout> | null = null;
+
+let latestUpdate: UpdateInfo | null = null;
+let acknowledgedVersion = "";
+let updateListener: ((info: UpdateInfo) => void) | null = null;
 
 const listeners = new Set<() => void>();
 
@@ -268,15 +278,72 @@ export async function unpublishMyBadges(): Promise<void> {
     emit();
 }
 
+export function getUpdateInfo(): UpdateInfo | null {
+    return latestUpdate;
+}
+
+export function setUpdateListener(listener: ((info: UpdateInfo) => void) | null) {
+    updateListener = listener;
+}
+export function acknowledgeUpdate(version: string) {
+    acknowledgedVersion = version;
+}
+
+export async function checkForUpdate(): Promise<void> {
+    const apiUrl = getCleanApiUrl();
+    if (!apiUrl) return;
+
+    try {
+        const res = await safeFetch(`${apiUrl}/version?t=${Date.now()}`);
+        const data = res.data as any;
+        if (!res.ok || !data || typeof data.version !== "string") return;
+
+        const info: UpdateInfo = {
+            version: data.version.trim(),
+            changelog: Array.isArray(data.changelog)
+                ? data.changelog.filter((line: unknown) => typeof line === "string").slice(0, 10)
+                : [],
+            url: typeof data.url === "string" ? data.url : REPO_URL
+        };
+
+        if (compareVersions(info.version, PLUGIN_VERSION) <= 0) {
+            if (latestUpdate) {
+                latestUpdate = null;
+                emit();
+            }
+            return;
+        }
+
+        latestUpdate = info;
+        emit();
+
+        if (acknowledgedVersion !== info.version) {
+            updateListener?.(info);
+        }
+    } catch {}
+}
+
 export function startPolling() {
     stopPolling();
-    setTimeout(() => void fetchRemoteBadges(), 1000);
+
+    startTimer = setTimeout(() => void fetchRemoteBadges(), 1000);
+    updateTimer = setTimeout(() => void checkForUpdate(), 5000);
+
     pollTimer = setInterval(() => {
         void fetchRemoteBadges();
+        void checkForUpdate();
     }, 2 * 60 * 1000);
 }
 
 export function stopPolling() {
+    if (startTimer) {
+        clearTimeout(startTimer);
+        startTimer = null;
+    }
+    if (updateTimer) {
+        clearTimeout(updateTimer);
+        updateTimer = null;
+    }
     if (pollTimer) {
         clearInterval(pollTimer);
         pollTimer = null;

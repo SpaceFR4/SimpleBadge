@@ -8,6 +8,7 @@ import definePlugin from "@utils/types";
 import { Menu, openModal, React, useEffect, useState, UserStore } from "@webpack/common";
 
 import { BadgeCustomizerModal } from "./components/BadgeCustomizerModal";
+import { UpdateModal } from "./components/UpdateModal";
 import { settings } from "./settings";
 import {
     ensureSecret,
@@ -15,11 +16,14 @@ import {
     getBadgesForUser,
     getMyBadges,
     getSyncStatus,
+    getUpdateInfo,
     publishMyBadges,
+    setUpdateListener,
     startPolling,
     stopPolling,
     subscribe
 } from "./store";
+import { PLUGIN_VERSION, UpdateInfo } from "./types";
 
 const SIMPLE_BADGE_PROVIDER_ID = "simple-badge-provider";
 
@@ -27,6 +31,22 @@ export function openBadgeStudio() {
     openModal(modalProps => (
         <BadgeCustomizerModal modalProps={modalProps} />
     ));
+}
+
+let updateModalOpen = false;
+
+export function showUpdateModal(info: UpdateInfo) {
+    if (updateModalOpen) return;
+    updateModalOpen = true;
+
+    try {
+        openModal(
+            modalProps => <UpdateModal modalProps={modalProps} info={info} />,
+            { onCloseCallback: () => { updateModalOpen = false; } }
+        );
+    } catch {
+        updateModalOpen = false;
+    }
 }
 
 const simpleBadgeProvider: ProfileBadge = {
@@ -60,6 +80,7 @@ function SettingsPanel() {
 
     const myBadges = getMyBadges();
     const sync = getSyncStatus();
+    const update = getUpdateInfo();
     const statusState = sync.state === "synced" ? "good" : sync.state === "syncing" ? "waiting" : "bad";
     const statusText = statusState === "good" ? "Online" : statusState === "waiting" ? "Syncing…" : "Offline";
 
@@ -69,7 +90,7 @@ function SettingsPanel() {
                 <div className="md-head-text">
                     <div className="md-head-title">Badge Creator</div>
                     <div className="md-head-line">
-                        {sync.userCount} user profile{sync.userCount === 1 ? "" : "s"} live on the network
+                        v{PLUGIN_VERSION} • {sync.userCount} user profile{sync.userCount === 1 ? "" : "s"} live on the network
                     </div>
                 </div>
                 <span className={`md-status md-status-${statusState}`}>
@@ -124,6 +145,11 @@ function SettingsPanel() {
                 <Button size="small" variant="secondary" onClick={() => void fetchRemoteBadges(true)}>
                     Refresh
                 </Button>
+                {update && (
+                    <Button size="small" variant="primary" onClick={() => showUpdateModal(update)}>
+                        Update available (v{update.version})
+                    </Button>
+                )}
             </div>
         </div>
     );
@@ -183,6 +209,9 @@ export default definePlugin({
             addProfileBadge(simpleBadgeProvider);
         } catch { }
         try {
+            setUpdateListener(showUpdateModal);
+        } catch { }
+        try {
             startPolling();
         } catch { }
     },
@@ -190,6 +219,9 @@ export default definePlugin({
     stop() {
         try {
             stopPolling();
+        } catch { }
+        try {
+            setUpdateListener(null);
         } catch { }
         try {
             removeProfileBadge(simpleBadgeProvider);
