@@ -77,11 +77,7 @@ Use the **Sync badges** toolbox action (or the sync pill in the studio) to refre
 ## Preview
 
 <p align="center">
-  <img src="images/studio.png" width="600" alt="SimpleBadge studio">
-</p>
-
-<p align="center">
-  <img src="images/studio.png" width="600" alt="SimpleBadge studio">
+  <img src="images/preview.png" width="600" alt="SimpleBadge studio">
 </p>
 
 - Plugin by **Space**
