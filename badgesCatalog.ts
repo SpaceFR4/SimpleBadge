@@ -21,6 +21,70 @@ export const BADGES_CATALOG: BadgeDefinition[] = [
         infoLabel: "Nitro"
     },
     {
+        id: "nitro_bronze",
+        name: "Nitro Bronze",
+        description: "Discord Nitro subscriber for 1 month",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/bronze.png`,
+        infoLabel: "Nitro Bronze"
+    },
+    {
+        id: "nitro_silver",
+        name: "Nitro Silver",
+        description: "Discord Nitro subscriber for 3 months",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/silver.png`,
+        infoLabel: "Nitro Silver"
+    },
+    {
+        id: "nitro_gold",
+        name: "Nitro Gold",
+        description: "Discord Nitro subscriber for 6 months",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/gold.png`,
+        infoLabel: "Nitro Gold"
+    },
+    {
+        id: "nitro_platinum",
+        name: "Nitro Platinum",
+        description: "Discord Nitro subscriber for 12 months",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/platinum.png`,
+        infoLabel: "Nitro Platinum"
+    },
+    {
+        id: "nitro_diamond",
+        name: "Nitro Diamond",
+        description: "Discord Nitro subscriber for 24 months",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/diamond.png`,
+        infoLabel: "Nitro Diamond"
+    },
+    {
+        id: "nitro_emerald",
+        name: "Nitro Emerald",
+        description: "Discord Nitro subscriber for 36 months",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/emerald.png`,
+        infoLabel: "Nitro Emerald"
+    },
+    {
+        id: "nitro_ruby",
+        name: "Nitro Ruby",
+        description: "Discord Nitro subscriber for 60 months",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/ruby.png`,
+        infoLabel: "Nitro Ruby"
+    },
+    {
+        id: "nitro_opal",
+        name: "Nitro Opal",
+        description: "Discord Nitro subscriber for 72+ months",
+        category: "nitro",
+        iconSrc: `${MEZO}/subscriptions/badges/opal.png`,
+        infoLabel: "Nitro Opal"
+    },
+    {
         id: "boost_lvl1",
         name: "Server Booster (1 month)",
         description: "Has been boosting the server for 1 month",
