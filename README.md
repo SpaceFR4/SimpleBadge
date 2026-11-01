@@ -75,6 +75,9 @@ Use the **Sync badges** toolbox action (or the sync pill in the studio) to refre
 ---
 
 ## Preview
+<p align="center">
+  <img src="images/simplebadge-manga-cover.svg" width="400" alt="SimpleBadge studio">
+</p>
 
 <p align="center">
   <img src="images/preview.png" width="400" alt="SimpleBadge studio">
