@@ -1,7 +1,5 @@
-# SimpleBadge
-
 <p align="center">
-  <img src="images/simplebadge-manga-cover.svg" width="1000" alt="SimpleBadge studio">
+  <img src="images/simplebadge-manga-cover.svg" width="1100" alt="SimpleBadge studio">
 </p>
 
 A [Vencord](https://vencord.dev) user plugin that lets you add and customize Discord profile badges, and share them with everyone who uses the plugin.
